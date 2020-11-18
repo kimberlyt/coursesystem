@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include partials/head %> 
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+ <style>
+     .header{
+         width: 600px;
+         padding: 20px;
+         margin: 25px auto;
+         border-radius: 5px;
+         text-align: center;
+     }
+     .container .input{
+        border: 0;
+        outline: none;
+     }
+     .search_wrap{
+         width: 500px;
+         margin: 30px auto;
+     }
+     .search_wrap .search_box{
+         position: relative;
+         width: 550px;
+         height: 60px;
+     }
+     .search_wrap .search_box .input{
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         padding: 10px 20px;
+         border-radius: 3px;
+         font-size: 18px;
+         background-color:#efefef;
+     }
+     .search_wrap .search_box .btn{
+         position: absolute;
+         top: 0;
+         right: 0;
+         width: 85px;
+         height: 100%;
+         z-index: 1;
+         cursor: pointer;
+     }
+     .search_wrap .search_box .btn.btn_common .search_btn{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+     }
+     .search_wrap .search_box .btn{
+         right: 0;
+         border-top-right-radius: 3px;
+         border-bottom-right-radius: 3px;
+     }
+
+ </style>
+</head>
+<body>
+<% include partials/menu %>
+<div class="container-fluid bg-3 text-center">   
+    <h1>Courses </h1>
+    <form action="/course/search" > 
+        <div class="header">
+            <div class="container">
+                <div class="search_wrap">
+                    <div class="search_box">
+                        <input type="text" name="term" class="input" placeholder="Search for course ..."/>
+                        <div class="btn btn_common">
+                            <button type="submit" class="btn btn-info">Search</button>                    
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+ 
+      <br><br>
+    
+    <div class="row">
+        <div class="card-deck">
+            <% for (var i = 0; i < courses.length ; i ++ ) { %>
+
+            <div class="card">
+              <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+              <div class="card-body">
+                <h5 class="card-title"><%= courses[i].dataValues.course_name %></h5>
+                <!-- <p class="card-text"></p> -->
+                <a href="/usr/<%= currentuser %>/details/<%= courses[i].dataValues.coursesid %>"> Details</a>
+              </div>
+            </div>
+
+            <% } %>
+  
+          </div>
+    </div>
+
+</div>
+</body>
+<% include partials/script %>
+</html>
