@@ -1,7 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
 
-
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('postgres://username:password@localhost:5432/database');
 var app = express();
 
 
@@ -63,26 +64,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://kim:password@localhost:5432/courses');
-// var initModels = require('./models/init-models');
-// var models = initModels(sequelize);
-// var SequelizeAuto = require('sequelize-auto');
-// var auto = new SequelizeAuto('courses', 'kim', 'password',{
-//     host: 'localhost',
-//     port:'5432',
-//     dialect: 'postgres'
 
-//   });
 
-// auto.run(function (err) {
-//     if (err) throw err;
-
-//     console.log(auto.tables); // table list
-//     console.log(auto.foreignKeys); // foreign key list
-// });
-// const pool = new Pool({
-//   auto
-// });
 
 module.exports = app;
