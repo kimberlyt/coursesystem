@@ -3,7 +3,7 @@ var router = express.Router();
 const http = require("../http-common");
 const passport = require("passport");
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/database')
+const sequelize = new Sequelize('postgres://kim:password@localhost:5432/courses')
 var initModels = require('../models/init-models');
 var models = initModels(sequelize);
 const bcrypt = require("bcrypt");
@@ -42,6 +42,7 @@ router.post('/register', async (req, res)=>{
       var user = await models.adminusers.findOne( { where: {user_email: email}});
       if(user == null){
       await models.adminusers.create({username: name, user_email: email,user_password: hashedPassword});
+        // req.flash("success_msg", "YOU ARE NOW registered please login");
          res.redirect('/admin/login');
       }else{
         res.redirect('/admin/register');
@@ -67,6 +68,8 @@ router.get('/login', (req, res)=>{
               console.log(err);
           }
           if(isMatch){
+              //return user obj to put in app
+              //done(no errors, return user)
               console.log("is a match");
               req.session.user = user;
               res.redirect('/admin/departments');
@@ -110,6 +113,13 @@ router.get('/department/:id',async function(req, res, next){
   var department = await models.department.findOne({ where: { departmentid: req.params["id"] }});
   var courses = await models.courses.findAll({ where: { departmentid: req.params["id"] }});
   res.render('department_info', {page:'Home', menuId:'home', department: department, courses: courses });
+  
+  //  await models.tutorials.findAll({ where: { title: { [Op.like]: '%' + term + '%'} }}).then(tutorials => res.render('tutorials', {page:'Home', menuId:'home', tutorials}))
+  //   .catch(err => console.log(err));
+  
+  // var course = await models.tutorials.findByTitle(coursequery);
+  // console.log(course);
+  
   
   });
 
@@ -181,7 +191,11 @@ res.render('admin_departments', {page:'Home', menuId:'home', departments: depart
 
 router.get('/add/department', function (req, res, next) {
     res.render('add_department', {page:'Home', menuId:'home'});
-
+    // console.log(req.session.user.id);
+    //   let { length, completed } = req.quer-+-+70y; 
+    //   var relation= await models.department.create({id: req.session.user.id, the_length: length, is_completed: completed, coursesid: req.params["id"]});
+    //   console.log(users)
+    //   res.redirect('/courses');
     });
 
 
@@ -223,11 +237,16 @@ router.get('/add/department', function (req, res, next) {
               console.log(err);
           }
           if(isMatch){
-
+              //return user obj to put in app
+              //done(no errors, return user)
               console.log("is a match");
               req.session.user = user;
               res.redirect('/');
-
+              // passport.authenticate('local', {
+              //   successRedirect: '/courses',
+              //   failureRedirect: '/login',
+              //   failureFlash: true
+              // })
   
           }
           else{
@@ -235,6 +254,7 @@ router.get('/add/department', function (req, res, next) {
           }
       });
   }else{
+      //if no users found in database
       return console.log( "Email not registered" );
   }
   });

@@ -216,4 +216,52 @@ function checkNotAuthenticated(req, res, next){
   res.redirect("/login");
 }
 
+// var auto = new SequelizeAuto('loginnode', 'kim', 'password',{
+//   host: 'localhost',
+//   port:'5432',
+//   dialect: 'postgres'
+
+// });
+
+// auto.run(function (err) {
+//   if (err) throw err;
+
+//   console.log(auto.tables); // table list
+//   console.log(auto.foreignKeys); // foreign key list
+// });
+// const authenticateUser = (email, password, done) => {
+//   pool.query(
+//       `SELECT * FROM users WHERE email = $1`,
+//       [email],
+//       (err, results) => {
+//           if(err){
+//               throw err;
+//           }
+//           console.log("inside");
+//           console.log(results.rows);
+//           if(results.rows.length > 0){
+//               const user = results.rows[0];
+             
+//               bcrypt.compare(password, user.password, (err, isMatch) => {
+//                   if(err){
+//                       console.log(err);
+//                   }
+//                   if(isMatch){
+//                       //return user obj to put in app
+//                       //done(no errors, return user)
+//                       return done(null, user);
+//                   }
+//                   else{
+//                       return done(null, false, { message: "Password not correct" });
+//                   }
+//               });
+//           }else{
+//               //if no users found in database
+//               return done(null, false, { message: "Email not registered" });
+//           }
+
+//       }
+//   );
+// };
+
 module.exports = router;
