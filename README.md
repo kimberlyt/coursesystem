@@ -17,7 +17,7 @@ psql -U username -d courses  < path\to\coursesdump.sql
 
 
 
-4. Navigate to the courses folder 
+4. Navigate to the courses folder in your terminal/cmd
 eg C:\Users\...\...\...\test\coursesystem\courses and run this command
 
 nodemon start
