@@ -3,6 +3,37 @@
 <head>
  <% include partials/head %> 
 <style>
+  body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.bg-3 { 
+  background-color: #ffffff;
+  color: #555555;
+}
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+.navbar {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+.navbar-nav  li a:hover {
+  color: #1abc9c !important;
+}
+.active>a {
+color: #1abc9c !important;;
+}
     h2{
     color: red;
 }
@@ -26,19 +57,39 @@ textarea{
 </style>
 </head>
 <body>
-<% include partials/menu %>
-<div class="container-fluid bg-3 text-center">    
-  <h3><%= department.dataValues.department_name %></h3><br>
-  <div class="row">
+<% include partials/admin_menu %>
+<div class="container-fluid bg-3 ">  
+  <h6 class="text-center">DEPARTMENT</h6>  
+  <h3 class="text-center"><%= department.dataValues.department_name %></h3><br>
+  <div class="row text-center">
     <div class="col-md-12 text-center"><a class="btn btn-primary" href="/admin/department/<%= department.dataValues.departmentid %>/add/course" role="button">Add course</a>
     </div>
+
     </div>
-    <div class="row">
+    <h4>Courses List</h4><br><br>
+
+    <div>
+      <table class="table table-striped" id="myTable">
+        <thead>
+
+          <tr>
+            <th scope="col">Course Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < courses.length ; i ++ ) { %>
+          <tr>
+            <td><%= courses[i].dataValues.course_name %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="row">
         <div class="card-deck">
             <% for (var i = 0; i < courses.length ; i ++ ) { %>
 
             <div class="card">
-              <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
               <div class="card-body">
                 <h5 class="card-title"><%= courses[i].dataValues.course_name %></h5>
               </div>
@@ -47,7 +98,7 @@ textarea{
             <% } %>
   
           </div>
-    </div>
+    </div> -->
   
 </div>
 </body>

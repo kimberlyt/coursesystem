@@ -5,6 +5,41 @@
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
  <style>
+     body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.bg-3 { 
+  background-color: #ffffff;
+  color: #555555;
+}
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+.navbar {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+.navbar-nav  li a:hover {
+  color: #1abc9c !important;
+}
+.active>a {
+color: #1abc9c !important;;
+}
+     form{
+        width: 40%;    
+        margin: 0 30%;
+     }
      .header{
          width: 600px;
          padding: 20px;
@@ -62,15 +97,15 @@
 </head>
 <body>
 <% include partials/admin_menu %>
-<div class="container-fluid bg-3 text-center">   
-    <h1>Edit Department </h1>
+<div class="container-fluid bg-3 ">   
+    <h1 class="text-center">Edit Department </h1>
     <form action="/admin/edit/department/<%= department.dataValues.departmentid %>" method="POST">
         <div class="form-group">
           <label for="exampleFormControlInput1">Name</label>
           <input type="text" name="name" class="form-control" id="exampleFormControlInput1" value="<%= department.dataValues.department_name %>" >
         </div>
         
-        <div>
+        <div style="    text-align: right;">
             <button type="submit" class="btn btn-info">Save</button>
         </div>
       </form>

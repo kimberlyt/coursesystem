@@ -28,8 +28,9 @@ router.use(passport.session());
 
 
 router.get('/', function(req, res, next) {
-  req.session.foo = "kpdo"
-  res.render('index', {page:'Home', menuId:'home'});
+  // req.session.foo = "kpdo"
+  // res.render('index', {page:'Home', menuId:'home'});
+  res.redirect('/login');
 });
 
 router.get('/login', (req, res)=>{
