@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include partials/head %> 
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+ <style>
+     .header{
+         width: 600px;
+         padding: 20px;
+         margin: 25px auto;
+         border-radius: 5px;
+         text-align: center;
+     }
+     .container .input{
+        border: 0;
+        outline: none;
+     }
+     .search_wrap{
+         width: 500px;
+         margin: 30px auto;
+     }
+     .search_wrap .search_box{
+         position: relative;
+         width: 550px;
+         height: 60px;
+     }
+     .search_wrap .search_box .input{
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         padding: 10px 20px;
+         border-radius: 3px;
+         font-size: 18px;
+         background-color:#efefef;
+     }
+     .search_wrap .search_box .btn{
+         position: absolute;
+         top: 0;
+         right: 0;
+         width: 85px;
+         height: 100%;
+         z-index: 1;
+         cursor: pointer;
+     }
+     .search_wrap .search_box .btn.btn_common .search_btn{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+     }
+     .search_wrap .search_box .btn{
+         right: 0;
+         border-top-right-radius: 3px;
+         border-bottom-right-radius: 3px;
+     }
+
+ </style>
+</head>
+<body>
+<% include partials/admin_menu %>
+<div class="container-fluid bg-3 text-center">   
+    <h1>Departments </h1>
+    <form action="/admin/department/search" > 
+        <div class="header">
+            <div class="container">
+                <div class="search_wrap">
+                    <div class="search_box">
+                        <input type="text" name="term" id="myInput" onkeyup="myFunction()" class="input" placeholder="Search for department ..."/>
+                        <!-- <div class="btn btn_common">
+                            <button type="submit" class="btn btn-info">Search</button>                    
+                        </div> -->
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a class="btn btn-primary" href="/admin/add/department" role="button">Add department</a>
+        </div>
+        </div>
+
+      <br>
+      <div>
+      <table class="table table-striped" id="myTable">
+        <thead>
+
+          <tr>
+            <th scope="col">Department Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for (var i = 0; i < departments.length ; i ++ ) { %>
+          <tr>
+            <td><%= departments[i].dataValues.department_name %></td>
+            <td><a href="/admin/department/<%= departments[i].dataValues.departmentid %>"> Details</a>| <a href="/admin/edit/department/<%= departments[i].dataValues.departmentid %>">Edit</a>| <a href="/admin/delete/department/<%= departments[i].dataValues.departmentid %>">Delete</a></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+
+</div>
+<script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+    </script>
+</body>
+<% include partials/script %>
+</html>

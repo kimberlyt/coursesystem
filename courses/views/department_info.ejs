@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <% include partials/head %> 
+<style>
+    h2{
+    color: red;
+}
+.comment_div{
+    width: 600px;
+    margin: auto;
+
+}
+textarea{
+    height: 30px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #aaa ;
+    background-color: transparent;
+    margin-bottom: 10px;
+    resize: inherit;
+    outline: none;
+
+}
+
+</style>
+</head>
+<body>
+<% include partials/menu %>
+<div class="container-fluid bg-3 text-center">    
+  <h3><%= department.dataValues.department_name %></h3><br>
+  <div class="row">
+    <div class="col-md-12 text-center"><a class="btn btn-primary" href="/admin/department/<%= department.dataValues.departmentid %>/add/course" role="button">Add course</a>
+    </div>
+    </div>
+    <div class="row">
+        <div class="card-deck">
+            <% for (var i = 0; i < courses.length ; i ++ ) { %>
+
+            <div class="card">
+              <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+              <div class="card-body">
+                <h5 class="card-title"><%= courses[i].dataValues.course_name %></h5>
+              </div>
+            </div>
+
+            <% } %>
+  
+          </div>
+    </div>
+  
+</div>
+</body>
+<% include partials/script %>
+</html>
