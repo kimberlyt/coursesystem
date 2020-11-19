@@ -3,18 +3,22 @@ var router = express.Router();
 const http = require("../http-common");
 const passport = require("passport");
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/database')
+const sequelize = new Sequelize('postgres://kim:password@localhost:5432/courses')
 var initModels = require('../models/init-models');
 const initializePassport = require("../passportConfig");
 const { response } = require('../app');
+ const flash = require("express-flash");
 const Op = Sequelize.Op;
 const {Pool} = require("pg");
+
 const bcrypt = require("bcrypt");
 
 
 var tutorials;
 
 initializePassport(passport);
+
+router.use(flash());
 
 var models = initModels(sequelize);
 // Funtion inside passport which initializes passpor
@@ -61,7 +65,7 @@ router.post('/register', async (req, res)=>{
       var user = await models.users.findOne( { where: {user_email: email}});
       if(user == null){
       await models.users.create({user_name: name, user_email: email,user_password: hashedPassword});
-        // req.flash("success_msg", "YOU ARE NOW registered please login");
+         req.flash("success_msg", "YOU ARE NOW registered please login");
          res.redirect('/login');
       }else{
         res.redirect('/register');
@@ -83,6 +87,8 @@ router.post('/login', async(req, res)=>{
             console.log(err);
         }
         if(isMatch){
+            //return user obj to put in app
+            //done(no errors, return user)
             console.log("is a match");
             req.session.user = user;
             res.redirect('/courses');
@@ -90,27 +96,48 @@ router.post('/login', async(req, res)=>{
 
         }
         else{
+          req.flash("error", "Password not correct");
             console.log( "Password not correct" );
+            res.redirect('/login');
         }
     });
 }else{
     //if no users found in database
-    return console.log( "Email not registered" );
+    req.flash("error", "Email not registered");
+    // return console.log( "Email not registered" );
+    res.redirect('/login');
 }
 });
 
 
 
 
-////////SEARCH Course
+////////SEARCH
 router.get('/course/search',async function(req, res, next){
     const coursequery = req.body.course;
   let { term } = req.query; 
   var courses = await models.courses.findAll( { where: { course_name: { [Op.like]: '%' + term + '%'} }});
   res.render('courses', {page:'Home', menuId:'home', courses: courses});
 
+//  await models.tutorials.findAll({ where: { title: { [Op.like]: '%' + term + '%'} }}).then(tutorials => res.render('tutorials', {page:'Home', menuId:'home', tutorials}))
+//   .catch(err => console.log(err));
+
+  // var course = await models.tutorials.findByTitle(coursequery);
+  // console.log(course);
+  
+  
 });
 
+
+
+
+// router.put('courses/:id/length/', async function (req, res, next) {
+//   let { length } = req.query; 
+//   await models.user_course.update(
+//     {the_length: req.body.length},
+//    {returning: true, where: {coursesid: req.params["id"]} }
+//   )}
+//   );
 
 router.get('/usr/:userid/details/:courseid',async function(req, res, next){
   var user = await models.users.findOne({ where: { userid: req.params["userid"] }});
@@ -127,12 +154,13 @@ router.get('/usr/:userid/details/:courseid',async function(req, res, next){
 
 
 
-router.get('/comment/:courseid', async function(req, res, next) {
+router.get('/usr/:userid/comment/:courseid', async function(req, res, next) {
   let { comment, rating } = req.query; 
   console.log("users is " + rating + comment)
   var users = await models.comments.create({comment_text: comment, rating: rating, coursesid: req.params["courseid"]});
+  // var usersdata = users
   console.log(users)
-   res.redirect('/details/'+ users.dataValues.coursesid);
+   res.redirect('/usr/'+req.params["userid"] +'/details/'+ users.dataValues.coursesid);
 });
 
 //FINISHED YET?
@@ -149,6 +177,8 @@ router.get('/:userid/course/:courseid', async function (req, res, next) {
 router.get('/users', async function(req, res, next) {
   console.log("users is ")
   var users = await models.users.findAll();
+  // var usersdata = users
+  // console.log(usersdata)
   res.render('users', {page:'Home', menuId:'home', users: users});
 });
 
@@ -167,13 +197,14 @@ router.get('/courses', async function (req, res, next){
 
 router.get('/logout', (req, res)=>{
   req.logOut();
+  req.flash("success_msg", "You have logged out");
   res.redirect("/login");
 });
 
 
 function checkAuthenticated(req, res, next){
   if(req.isAuthenticated()){
-      return res.redirect("/courses");
+      return res.redirect("/dashboard");
   }
   next();
 }
@@ -184,6 +215,5 @@ function checkNotAuthenticated(req, res, next){
   }
   res.redirect("/login");
 }
-
 
 module.exports = router;

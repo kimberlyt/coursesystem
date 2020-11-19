@@ -1,0 +1,59 @@
+-- CREATE DATABASE courses;
+
+-- CREATE TABLE users(
+--     userid uuid PRIMARY KEY DEFAULT
+--     uuid_generate_v4(),
+--     user_name VARCHAR(255) NOT NULL,
+--     user_email VARCHAR(255) NOT NULL,
+--     user_password VARCHAR(255) NOT NULL
+-- );
+
+-- INSERT INTO users (user_name, user_email, user_password) VALUES ('brian',
+-- 'brian@gmail.com', 'password');
+
+CREATE TABLE department(
+    departmentid uuid PRIMARY KEY DEFAULT
+    uuid_generate_v4(),
+    department_name VARCHAR(255) NOT NULL
+);
+CREATE TABLE adminusers(
+    adminid uuid PRIMARY KEY DEFAULT
+    uuid_generate_v4(),
+    username VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    user_password VARCHAR(255) NOT NULL
+);
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE TABLE comments(
+    commentid uuid PRIMARY KEY DEFAULT
+    uuid_generate_v4(),
+    coursesid uuid,
+    comment_text VARCHAR(255) NOT NULL,
+    rating int NOT NULL,
+    FOREIGN KEY (coursesid) REFERENCES courses(coursesid)
+
+);
+
+CREATE TABLE courses(
+    coursesid uuid PRIMARY KEY DEFAULT
+    uuid_generate_v4(),
+    course_name VARCHAR(255) NOT NULL,
+    departmentid uuid,
+    FOREIGN KEY (departmentid) REFERENCES department(departmentid)
+);
+CREATE TABLE skills(
+    skillsid uuid PRIMARY KEY DEFAULT
+    uuid_generate_v4(),
+    skill_name VARCHAR(255) NOT NULL,
+    coursesid uuid,
+    FOREIGN KEY (coursesid) REFERENCES courses(coursesid)
+);
+CREATE TABLE user_course(
+    coursesid uuid,
+    userid uuid,
+    is_completed boolean,
+    the_length int,
+    PRIMARY KEY (coursesid, userid), 
+    FOREIGN KEY (coursesid) REFERENCES courses(coursesid),
+    FOREIGN KEY (userid) REFERENCES users(userid)
+);
