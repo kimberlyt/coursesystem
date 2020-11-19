@@ -18,10 +18,13 @@ psql -U username -d courses  < path\to\coursesdump.sql
 
 
 4. Navigate to the courses folder 
-eg C:\Users\jkanj\OneDrive\Desktop\test\coursesystem\courses and run this command
+eg C:\Users\...\...\...\test\coursesystem\courses and run this command
 
 nodemon start
 
+5. in your browser open up http://localhost:3000/login and to navigate to admin that has the CRUD Operations you can go to http://localhost:3000//admin/login in the browser
+
+5.The end
 
 
 
@@ -41,7 +44,8 @@ nodemon start
 
 
 
+DISREGARD THIS
 
 BACKUP (CREATE SQL SCRIPT) 
 
-pg_dump --create -s -U kim -d courses >  C:\Users\jkanj\OneDrive\documents\coursesdump.sql
+pg_dump --create -s -U username -d database_name >  C:\Users\...\...\documents\coursesdump.sql
